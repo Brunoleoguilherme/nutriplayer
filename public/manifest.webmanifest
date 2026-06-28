@@ -1,0 +1,19 @@
+{
+  "name": "NutryPlayer Athlete",
+  "short_name": "NutryPlayer",
+  "description": "Seu plano nutricional, hidratação e game day — BH Wolves.",
+  "start_url": "/atleta",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff8f1",
+  "theme_color": "#fff8f1",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

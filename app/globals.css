@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
+/* =====================================================================
+   NUTRIPLAY DESIGN SYSTEM — Identidade oficial (v1.0)
+   Tema CLARO premium: fundo creme, verde + laranja, fonte Inter.
+   Tailwind v4 (config CSS-first via @theme). Tudo via tokens — sem hardcode.
+   ===================================================================== */
+@theme {
+  /* Superfícies */
+  --color-bg: #fff8f1; /* fundo principal (papel premium) */
+  --color-surface: #ffffff; /* cards */
+  --color-surface-2: #fff2e2; /* hover / superfícies secundárias */
+  --color-border: #e8edf2;
+
+  /* Texto */
+  --color-fg: #0f172a;
+  --color-muted: #475569;
+  --color-disabled: #94a3b8;
+
+  /* Marca — Verde Nutri + Laranja + Marinho (logo) */
+  --color-brand: #16e28a;
+  --color-brand-dark: #0bcf74;
+  --color-accent: #ff8a1e;
+  --color-accent-light: #ffc98a;
+  --color-navy: #1e3a5f; /* "NUTRI" do logo */
+
+  /* Aliases de marca (consumidos por componentes existentes) */
+  --color-brand-purple: #0bcf74; /* títulos de seção → verde */
+  --color-brand-blue: #2563eb;
+  --color-brand-green: #16e28a;
+
+  /* Estados */
+  --color-success: #16c784;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #2563eb;
+
+  /* Macronutrientes (gráficos/badges) */
+  --color-protein: #0bcf74;
+  --color-carb: #ff8a1e;
+  --color-fat: #2563eb;
+
+  /* Raios (Design System) */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+  --radius-card: 28px;
+  --radius-button: 18px;
+  --radius-input: 20px;
+
+  /* Sombras suaves */
+  --shadow-card: 0 12px 34px rgba(30, 58, 95, 0.07);
+  --shadow-hover: 0 22px 48px rgba(30, 58, 95, 0.12);
+
+  /* Fontes */
+  --font-sans: var(--font-inter);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    background-color: var(--color-bg);
+    background-image:
+      radial-gradient(120% 90% at 100% 0%, rgba(255, 138, 30, 0.14), transparent 55%),
+      radial-gradient(110% 80% at 0% 0%, rgba(255, 184, 110, 0.16), transparent 50%),
+      radial-gradient(120% 120% at 100% 100%, rgba(22, 226, 138, 0.07), transparent 55%);
+    background-attachment: fixed;
+    color: var(--color-fg);
+    font-family: var(--font-sans), "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Gradiente de botões/chips: verde → verde escuro */
+@utility brand-gradient {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-brand),
+    var(--color-brand-dark)
+  );
+}
+
+/* Wordmark/realce: verde → laranja (espelha o logo) */
+@utility brand-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-dark),
+    var(--color-accent)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Card padrão do sistema (radius 28, sombra suave) */
+@utility card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+/* Scrollbar discreta */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+/* Impressão / PDF: layout claro e limpo */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  @page {
+    margin: 16mm;
+  }
+}
+
+/* Gradiente de realce: laranja (espelha o "Player"/ícone do logo) */
+@utility accent-gradient {
+  background-image: linear-gradient(135deg, #ff9a3c, var(--color-accent));
+}
+
+/* Card com hover premium (eleva + sombra) */
+@utility card-hover {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+  }
 }
