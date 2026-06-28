@@ -156,11 +156,24 @@ function NovoPlanoConteudo() {
             <Button type="button" variant="ghost" onClick={adicionar} disabled={!refeicaoSel}>
               <Plus className="h-4 w-4" /> Adicionar
             </Button>
+            <Link
+              href="/refeicoes/nova"
+              className="flex items-center gap-1.5 rounded-[var(--radius-button)] border border-[var(--color-border)] px-4 py-2 text-sm font-semibold text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] whitespace-nowrap"
+            >
+              <Plus className="h-4 w-4" /> Criar refeição
+            </Link>
           </div>
 
           {itens.length === 0 ? (
             <p className="py-8 text-center text-sm text-[var(--color-muted)]">
-              Nenhuma refeição adicionada. {refeicoes.length === 0 && "Crie refeições primeiro no Meal Builder."}
+              Nenhuma refeição adicionada.{" "}
+              {refeicoes.length === 0 && (
+                <>Crie refeições primeiro no{" "}
+                  <Link href="/refeicoes/nova" className="font-semibold text-[var(--color-accent)] hover:underline">
+                    Meal Builder
+                  </Link>.
+                </>
+              )}
             </p>
           ) : (
             <div className="space-y-2">

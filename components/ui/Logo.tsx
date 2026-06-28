@@ -1,46 +1,47 @@
 import { cn } from "@/lib/cn";
 
 /**
- * Logo oficial do NutryPlayer (fiel à marca):
- *   • Badge "N" com gradiente laranja → verde (ícone + folha).
- *   • Wordmark "Nutry" (marinho) + "Player" (laranja).
- *   • Tagline "SPORTS NUTRITION".
+ * Logo oficial NutriPlayer.
+ * Usa /logo.svg (imagem completa: badge + wordmark + tagline).
+ * Variante "icon" usa apenas /logo-icon.svg (badge N isolado).
  */
 export function Logo({
-  showBadge = true,
-  showTagline = false,
+  variant = "full",
   size = "md",
   className,
 }: {
+  /** "full" = badge + wordmark | "icon" = só o badge N */
+  variant?: "full" | "icon";
+  /** @deprecated use variant="full" e size */
   showBadge?: boolean;
+  /** @deprecated */
   showTagline?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {
-  const word =
-    size === "lg" ? "text-3xl" : size === "sm" ? "text-base" : "text-lg";
-  const badge =
-    size === "lg" ? "h-12 w-12" : size === "sm" ? "h-8 w-8" : "h-10 w-10";
-  const tag =
-    size === "lg" ? "text-[11px]" : "text-[9px]";
+  if (variant === "icon") {
+    const dim = size === "lg" ? 48 : size === "sm" ? 28 : 36;
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src="/logo-icon.svg"
+        alt="NutriPlayer"
+        width={dim}
+        height={dim}
+        className={cn("shrink-0", className)}
+      />
+    );
+  }
+
+  // Altura da imagem full em cada tamanho
+  const h = size === "lg" ? "h-20" : size === "sm" ? "h-10" : "h-14";
 
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
-      {showBadge && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src="/logo-icon.svg" alt="NutryPlayer" className={cn("shrink-0", badge)} />
-      )}
-      <span className="leading-tight">
-        <span className={cn("font-extrabold tracking-tight", word)}>
-          <span style={{ color: "var(--color-navy)" }}>Nutry</span>
-          <span style={{ color: "var(--color-accent)" }}>Player</span>
-        </span>
-        {showTagline && (
-          <span className={cn("block font-semibold uppercase tracking-[0.28em] text-[var(--color-muted)]", tag)}>
-            Sports Nutrition
-          </span>
-        )}
-      </span>
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/logo.png"
+      alt="NutriPlayer — Sports Nutrition Intelligence"
+      className={cn(h, "w-auto object-contain", className)}
+    />
   );
 }

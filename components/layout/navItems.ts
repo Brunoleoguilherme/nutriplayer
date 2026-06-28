@@ -15,6 +15,7 @@ import {
   Brain,
   Plug,
   Shield,
+  UserCog,
   type LucideIcon,
 } from "lucide-react";
 
@@ -42,4 +43,5 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/marketplace", label: "Marketplace", icon: Store },
   { href: "/compras", label: "Compras", icon: ShoppingBag },
   { href: "/integracao", label: "Integração", icon: Plug },
+  { href: "/usuarios", label: "Usuários", icon: UserCog },
 ];

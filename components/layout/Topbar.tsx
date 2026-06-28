@@ -2,21 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Bell, LogOut } from "lucide-react";
+import { Bell, LogOut, Search } from "lucide-react";
 import { MobileNav } from "./MobileNav";
-import { Logo } from "@/components/ui/Logo";
 import { createClient } from "@/lib/supabase/client";
 
 export function Topbar() {
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
+  const [nome, setNome] = useState<string | null>(null);
   const [aberto, setAberto] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     createClient()
       .auth.getUser()
-      .then(({ data }) => setEmail(data.user?.email ?? null))
+      .then(({ data }) => {
+        const user = data.user;
+        setEmail(user?.email ?? null);
+        setNome(user?.user_metadata?.full_name ?? user?.email?.split("@")[0] ?? null);
+      })
       .catch(() => {});
   }, []);
 
@@ -34,28 +38,49 @@ export function Topbar() {
     router.refresh();
   }
 
-  const iniciais = email ? email.slice(0, 2).toUpperCase() : "··";
+  const iniciais = email ? email.slice(0, 2).toUpperCase() : "BR";
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-bg)]/80 px-4 backdrop-blur sm:px-6">
-      <div className="flex items-center gap-3">
+    <header className="sticky top-0 z-30 flex h-[72px] items-center gap-4 border-b border-[var(--color-border)] bg-[var(--color-surface)]/90 px-4 backdrop-blur sm:px-6">
+      {/* Mobile: hambúrguer */}
+      <div className="flex items-center gap-2 md:hidden">
         <MobileNav />
-        <span className="md:hidden">
-          <Logo size="sm" showBadge={false} />
-        </span>
       </div>
-      <div className="flex items-center gap-4">
-        <button className="text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]">
+
+      {/* Search bar — cresce no centro */}
+      <div className="relative flex-1 max-w-md">
+        <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--color-muted)]" />
+        <input
+          type="text"
+          placeholder="Buscar atleta, refeição, alimento..."
+          className="w-full rounded-[20px] border border-[var(--color-border)] bg-[var(--color-bg)] py-2.5 pl-10 pr-4 text-sm text-[var(--color-fg)] placeholder:text-[var(--color-disabled)] outline-none transition-all focus:border-[var(--color-accent)]/60 focus:ring-2 focus:ring-[var(--color-accent)]/10"
+        />
+      </div>
+
+      {/* Ações direita */}
+      <div className="ml-auto flex items-center gap-3">
+        {/* Notificações */}
+        <button className="relative rounded-full p-2 text-[var(--color-muted)] transition-colors hover:bg-[var(--color-surface-2)] hover:text-[var(--color-fg)]">
           <Bell className="h-5 w-5" />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-[var(--color-accent)]" />
         </button>
 
+        {/* Avatar + dropdown */}
         <div className="relative" ref={ref}>
           <button
             onClick={() => setAberto((v) => !v)}
-            className="brand-gradient flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold text-white"
+            className="flex items-center gap-2.5 rounded-full pl-1 pr-3 py-1 transition-colors hover:bg-[var(--color-surface-2)]"
             aria-label="Conta"
           >
-            {iniciais}
+            <div
+              className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
+              style={{ background: "linear-gradient(135deg,#FF9A30,#FF6B00)" }}
+            >
+              {iniciais}
+            </div>
+            {nome && (
+              <span className="hidden text-sm font-medium sm:block">{nome}</span>
+            )}
           </button>
 
           {aberto && (
