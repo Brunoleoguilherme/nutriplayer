@@ -51,8 +51,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Sessão setada nos cookies — middleware vai reconhecer na próxima request
-  const response = NextResponse.redirect(new URL("/dashboard", request.url));
+  // next = destino após login (default: /dashboard)
+  const next = searchParams.get("next") || "/dashboard";
+  const response = NextResponse.redirect(new URL(next, request.url));
 
   // Copia os cookies setados pelo supabase para a resposta do redirect
   cookieStore.getAll().forEach(({ name, value }) => {
