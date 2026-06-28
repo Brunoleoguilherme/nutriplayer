@@ -116,9 +116,9 @@ export default function AtletaHome() {
             {atleta?.foto_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={atleta.foto_url} alt={atleta.nome}
-                className="h-12 w-12 rounded-full object-cover ring-2 ring-white/20" />
+                className="h-24 w-24 rounded-full object-cover ring-2 ring-white/20" />
             ) : (
-              <div className="flex h-12 w-12 items-center justify-center rounded-full text-lg font-black text-white ring-2 ring-white/20"
+              <div className="flex h-24 w-24 items-center justify-center rounded-full text-3xl font-black text-white ring-2 ring-white/20"
                 style={{ background: "linear-gradient(135deg,#FF9A30,#FF6B00)" }}>
                 {primeiroNome.charAt(0)}
               </div>
