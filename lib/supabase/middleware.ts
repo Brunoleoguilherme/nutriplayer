@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * Refresh de sessão + portão de acesso.
  * Tudo é protegido, EXCETO as rotas públicas abaixo. Sem sessão → /login.
  */
-const PUBLIC_PREFIXES = ["/login", "/embed", "/imprimir"];
+const PUBLIC_PREFIXES = ["/login", "/embed", "/imprimir", "/api/embed"];
 
 function isPublic(path: string): boolean {
   if (path.startsWith("/api/integracao")) return true; // consumido por token (BH Wolves)
