@@ -57,6 +57,7 @@ export default function AtletaHome() {
   const [planosAtivos, setPlanosAtivos] = useState(0);
   const [proximoJogo, setProximoJogo] = useState<GameDay | null>(null);
   const [loading, setLoading] = useState(true);
+  const [saudacao, setSaudacao] = useState("Boa tarde");
 
   useEffect(() => {
     (async () => {
@@ -81,9 +82,12 @@ export default function AtletaHome() {
     })();
   }, [id]);
 
+  useEffect(() => {
+    const hora = new Date().getHours();
+    setSaudacao(hora < 12 ? "Bom dia" : hora < 18 ? "Boa tarde" : "Boa noite");
+  }, []);
+
   const pct = Math.min(100, Math.round((agua / META_AGUA_ML) * 100));
-  const hora = new Date().getHours();
-  const saudacao = hora < 12 ? "Bom dia" : hora < 18 ? "Boa tarde" : "Boa noite";
   const primeiroNome = atleta?.nome?.split(" ")[0] ?? "Atleta";
 
   return (
